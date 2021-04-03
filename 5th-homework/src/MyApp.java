@@ -5,7 +5,7 @@ public class MyApp {
 
         // Выводим в консоль сотрудников, чей возраст больше 40
         for (Person employee : employees) {
-            if (employee.age > 40) {
+            if (employee.getAge() > 40) {
                 System.out.println(employee.toString());
             }
         }
