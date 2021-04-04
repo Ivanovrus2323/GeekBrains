@@ -38,6 +38,7 @@ public class CrossZeroConsoleGame {
         initMap();
 
         play();
+        printMap();
         System.out.println("Игра закончена");
         System.exit(0);
     }
@@ -156,7 +157,66 @@ public class CrossZeroConsoleGame {
             }
 
         } else if (size == 5) {
+            // Проходимся по строкам
+            for (int i = 0; i < map.length; i++) {
+                // Проходимся по кускам размером 4 в строках
+                for (int j = 0; j <= map[i].length-4; j++) {
+                    // Получаем кусок строки
+                    char[] line = new char[4];
+                    for (int k = 0; k < line.length; k++) {
+                        line[k] = map[i][k+j];
+                    }
+                    // Проверяем кусок строки
+                    if (Arrays.equals(line, X_LINE4) || Arrays.equals(line, O_LINE4)) {
+                        return true;
+                    }
+                }
+            }
 
+            // Проходимся по столбцам
+            for (int i = 0; i < map[0].length; i++) {
+                // Получаем столбец
+                char[] column = new char[size];
+                for (int j = 0; j < map.length; j++) {
+                    column[j] = map[j][i];
+                }
+
+                // Проходимся по кускам размером 4 в столбце
+                for (int j = 0; j <= column.length-4; j++) {
+                    // Получаем кусок строки
+                    char[] line = new char[4];
+                    for (int k = 0; k < line.length; k++) {
+                        line[k] = column[k+j];
+                    }
+                    
+                    // Проверяем кусок строки
+                    if (Arrays.equals(line, X_LINE4) || Arrays.equals(line, O_LINE4)) {
+                        return true;
+                    }
+                }
+            }
+
+            /**
+            // Получаем главную диагональ
+            char[] mainDiagonal = new char[size];
+            for (int i = 0; i < size; i++) {
+                mainDiagonal[i] =  map[i][i];
+            }
+            // Проверяем главную диагональ
+            if (Arrays.equals(mainDiagonal, X_LINE3) || Arrays.equals(mainDiagonal, O_LINE3)) {
+                return true;
+            }
+
+            // Получаем побочную диагональ
+            char[] secondaryDiagonal = new char[size];
+            for (int i = size-1; i >= 0; i--) {
+                secondaryDiagonal[i] =  map[i][i];
+            }
+            // Проверяем побочную диагональ
+            if (Arrays.equals(secondaryDiagonal, X_LINE3) || Arrays.equals(secondaryDiagonal, O_LINE3)) {
+                return true;
+            }
+             */
         }
 
 
@@ -236,5 +296,6 @@ public class CrossZeroConsoleGame {
         }
         System.out.println("|");
         System.out.println("y");
+        System.out.println();
     }
 }
