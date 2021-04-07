@@ -28,8 +28,11 @@ public class CrossZeroConsoleGame {
     public static byte currentPlayer = 2;
     public static char currentDot = DOT_O;
 
+    public static int last_x;
+    public static int last_y;
+    public static double spread;
+
     public static final Scanner scanner = new Scanner(System.in);
-    public static final Random random = new Random();
 
     public static void main(String[] args) {
         choseGameMode();
@@ -59,7 +62,7 @@ public class CrossZeroConsoleGame {
     }
 
     /**
-     * Проверка валидности игрового режима
+     * Проверка игрового режима
      */
     public static boolean isGameModeValid() {
         return gameMode == 1 || gameMode == 2;
@@ -81,7 +84,7 @@ public class CrossZeroConsoleGame {
     }
 
     /**
-     * Проверка валидности размера игрового поля
+     * Проверка размера игрового поля
      */
     public static boolean isMapSizeValid() {
         return size == 3 || size == 5;
@@ -152,7 +155,9 @@ public class CrossZeroConsoleGame {
                 secondaryDiagonal[i] =  map[i][i];
             }
             // Проверяем побочную диагональ
-            return Arrays.equals(secondaryDiagonal, X_LINE3) || Arrays.equals(secondaryDiagonal, O_LINE3);
+            if (Arrays.equals(secondaryDiagonal, X_LINE3) || Arrays.equals(secondaryDiagonal, O_LINE3)) {
+                return true;
+            }
 
         } else if (size == 5) {
             // Проходимся по строкам
@@ -255,8 +260,17 @@ public class CrossZeroConsoleGame {
                 }
             }
         }
-        
-        return false;
+
+        // Проверяем наличие свободных точек на поле
+        for (char[] chars : map) {
+            for (char c : chars) {
+                if (c == DOT_EMPTY) {
+                    return false;
+                }
+            }
+        }
+
+        return true;
     }
 
     /**
@@ -272,9 +286,12 @@ public class CrossZeroConsoleGame {
      */
     public static void aiTurn() {
         int x, y;
+        spread = 1; // Разброс необходим для случаев когда все близлежащие клетки заняты
         do {
-            x = random.nextInt(size-1);
-            y = random.nextInt(size-1);
+            // Выберам клетку рядом с той, которую выбрал игрок (блокировка ходов)
+            x = (int) (last_x - (Math.random() * (spread * 2) - spread));
+            y = (int) (last_y - (Math.random() * (spread * 2) - spread));
+            spread = (spread >= 4) ? 4 : spread + 0.1; // Условие необходимо чтобы разброс не доходил до огромных значений
         } while (!isAiTurnValid(x, y));
         map[y][x] = currentDot;
         System.out.printf("Компьютер походил в точку %d %d \n", x+1, y+1);
@@ -299,6 +316,8 @@ public class CrossZeroConsoleGame {
             y = scanner.nextInt() - 1;
         } while (!isHumanTurnValid(x, y));
         map[y][x] = currentDot;
+        last_x = x;
+        last_y = y;
         System.out.printf("Вы походили в точку %d %d \n", x+1, y+1);
     }
 
@@ -306,15 +325,19 @@ public class CrossZeroConsoleGame {
      * Проверка хода человека
      */
     public static boolean isHumanTurnValid(int x, int y) {
-        if (x < 0 || x >= size || y < 0 || y >= size || map[y][x] != DOT_EMPTY) {
-            if (map[y][x] != DOT_EMPTY) {
-                System.out.println("Точка уже занята");
-            }
+        if (map[y][x] != DOT_EMPTY) {
+            System.out.println("Точка уже занята");
+            return false;
+        } else if (x < 0 || x >= size || y < 0 || y >= size) {
+            System.out.println("Координата не найдена");
             return false;
         }
         return true;
     }
 
+    /**
+     * Вывод игрового поля в консоль
+     */
     public static void printMap() {
         for (int i = 0; i <= size; i++) {
             System.out.print(i + " ");
