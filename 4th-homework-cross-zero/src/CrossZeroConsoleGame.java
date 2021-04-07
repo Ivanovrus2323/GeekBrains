@@ -77,7 +77,7 @@ public class CrossZeroConsoleGame {
             size = scanner.nextByte();
         } while (!isMapSizeValid());
 
-        System.out.println((gameMode == 1) ? "Выбран размер игрового поля 3x3." : "Выбран размер игрового поля 5x5.");
+        System.out.println((size == 3) ? "Выбран размер игрового поля 3x3.\nДля победы необходимо 3 одинаковых знака подряд." : "Выбран размер игрового поля 5x5.\nДля победы необходимо 4 одинаковых знака подряд.");
     }
 
     /**
@@ -152,19 +152,17 @@ public class CrossZeroConsoleGame {
                 secondaryDiagonal[i] =  map[i][i];
             }
             // Проверяем побочную диагональ
-            if (Arrays.equals(secondaryDiagonal, X_LINE3) || Arrays.equals(secondaryDiagonal, O_LINE3)) {
-                return true;
-            }
+            return Arrays.equals(secondaryDiagonal, X_LINE3) || Arrays.equals(secondaryDiagonal, O_LINE3);
 
         } else if (size == 5) {
             // Проходимся по строкам
-            for (int i = 0; i < map.length; i++) {
+            for (char[] chars : map) {
                 // Проходимся по кускам размером 4 в строках
-                for (int j = 0; j <= map[i].length-4; j++) {
+                for (int j = 0; j <= chars.length - 4; j++) {
                     // Получаем кусок строки
                     char[] line = new char[4];
                     for (int k = 0; k < line.length; k++) {
-                        line[k] = map[i][k+j];
+                        line[k] = chars[k + j];
                     }
                     // Проверяем кусок строки
                     if (Arrays.equals(line, X_LINE4) || Arrays.equals(line, O_LINE4)) {
@@ -188,7 +186,7 @@ public class CrossZeroConsoleGame {
                     for (int k = 0; k < line.length; k++) {
                         line[k] = column[k+j];
                     }
-                    
+
                     // Проверяем кусок строки
                     if (Arrays.equals(line, X_LINE4) || Arrays.equals(line, O_LINE4)) {
                         return true;
@@ -196,30 +194,68 @@ public class CrossZeroConsoleGame {
                 }
             }
 
-            /**
-            // Получаем главную диагональ
-            char[] mainDiagonal = new char[size];
-            for (int i = 0; i < size; i++) {
-                mainDiagonal[i] =  map[i][i];
+
+            // Получаем главные диагонали размером 4
+            char[][] mainDiagonals = new char[4][4];
+
+            for (int i = 0; i <= size-4; i++) {
+                for (int j = 0; j < 4; j++) {
+                    mainDiagonals[i][j] = map[j+i][j+i];
+                }
             }
-            // Проверяем главную диагональ
-            if (Arrays.equals(mainDiagonal, X_LINE3) || Arrays.equals(mainDiagonal, O_LINE3)) {
-                return true;
+            for (int i = 1; i < size; i++) {
+                mainDiagonals[2][i-1] = map[i-1][i];
+            }
+            for (int i = 1; i < size; i++) {
+                mainDiagonals[3][i-1] = map[i][i-1];
             }
 
-            // Получаем побочную диагональ
-            char[] secondaryDiagonal = new char[size];
-            for (int i = size-1; i >= 0; i--) {
-                secondaryDiagonal[i] =  map[i][i];
+            // Проверяем главные диагонали
+            for (char[] array : mainDiagonals) {
+                if (Arrays.equals(array, X_LINE4) || Arrays.equals(array, O_LINE4)) {
+                    return true;
+                }
             }
-            // Проверяем побочную диагональ
-            if (Arrays.equals(secondaryDiagonal, X_LINE3) || Arrays.equals(secondaryDiagonal, O_LINE3)) {
-                return true;
+
+
+            // Получаем побочные диагонали размером 4
+            char[][] secondaryDiagonals = new char[4][4];
+
+            // Получаем центральную диагональ
+            for (int i = 0; i <= size-4; i++) {
+                char[] diagonal = new char[size];
+                int j = size-1;
+                for (int k = 0; k < size; k++) {
+                    diagonal[k] = map[k][j];
+                    j--;
+                }
+                j = 0;
+                for (int k = i; k <= size-2+i; k++) {
+                    secondaryDiagonals[i][j] = diagonal[k];
+                    j++;
+                }
             }
-             */
+            // Получаем верхнюю диагональ
+            int j = size-2;
+            for (int i = 0; i < size-1; i++) {
+                secondaryDiagonals[2][i] = map[i][j];
+                j--;
+            }
+            // Получаем нижнюю диагональ
+            j = 1;
+            for (int i = size-1; i > 0; i--) {
+                secondaryDiagonals[3][i-1] = map[i][j];
+                j++;
+            }
+
+            // Проверяем побочные диагонали
+            for (char[] array : secondaryDiagonals) {
+                if (Arrays.equals(array, X_LINE4) || Arrays.equals(array, O_LINE4)) {
+                    return true;
+                }
+            }
         }
-
-
+        
         return false;
     }
 
