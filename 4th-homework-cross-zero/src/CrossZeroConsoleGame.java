@@ -43,7 +43,6 @@ public class CrossZeroConsoleGame {
         play();
         printMap();
         System.out.println("Игра закончена");
-        System.exit(0);
     }
 
     /**
