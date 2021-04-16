@@ -6,12 +6,17 @@ public class Cat extends Animal {
 
     public static int count = 0;
 
-    private static final int maxRunDistance = 200;
-    private static final int maxSwimDistance = 0;
+    public Cat(String name, int appetite) {
+        super(name, appetite);
+        count++;
+    }
 
     public Cat(String name) {
-        super(name, maxRunDistance, maxSwimDistance);
-        count++;
+        this(name, -1);
+    }
+
+    public Cat() {
+        this("Неизвестный кот", -1);
     }
 
     /**
@@ -36,15 +41,5 @@ public class Cat extends Animal {
         for (Cat cat : cats) {
             cat.isSatiety();
         }
-    }
-
-    @Override
-    public void run(int distance) {
-        super.run(distance);
-    }
-
-    @Override
-    public void swim(int distance) {
-        System.out.println("Коты не умеют плавать");
     }
 }
