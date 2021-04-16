@@ -11,6 +11,7 @@ public class Application {
         Dog dog2 = new Dog("Адлер");
         Dog dog3 = new Dog("Арчи");
 
+        /**
         System.out.println();
 
         cat1.swim(54);
@@ -24,9 +25,18 @@ public class Application {
         dog1.run(857);
 
         System.out.println();
+
+        System.out.println(dog1.isSatiety());
+
+        System.out.println();
         System.out.println(Animal.count);
         System.out.println(Dog.count);
         System.out.println(Cat.count);
+         */
+
+        System.out.println();
+
+        Plate plate = new Plate(100);
     }
 
 }
