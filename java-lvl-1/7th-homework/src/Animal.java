@@ -4,11 +4,21 @@ public class Animal {
 
     private int maxRunDistance;
     private int maxSwimDistance;
+    private int age;
 
     private String name;
 
+    public Animal() {
+        this.name = "Неизвестное животное";
+        this.age = -1;
+        this.maxRunDistance = -1;
+        this.maxSwimDistance = -1;
+        count++;
+    }
+
     public Animal(String name) {
         this.name = name;
+        this.age = -1;
         this.maxRunDistance = -1;
         this.maxSwimDistance = -1;
         count++;
@@ -16,6 +26,7 @@ public class Animal {
 
     public Animal(String name, int maxRunDistance) {
         this.name = name;
+        this.age = -1;
         this.maxRunDistance = maxRunDistance;
         this.maxSwimDistance = -1;
         count++;
@@ -23,6 +34,15 @@ public class Animal {
 
     public Animal(String name, int maxRunDistance, int maxSwimDistance) {
         this.name = name;
+        this.age = -1;
+        this.maxRunDistance = maxRunDistance;
+        this.maxSwimDistance = maxSwimDistance;
+        count++;
+    }
+
+    public Animal(String name, int age, int maxRunDistance, int maxSwimDistance) {
+        this.name = name;
+        this.age = age;
         this.maxRunDistance = maxRunDistance;
         this.maxSwimDistance = maxSwimDistance;
         count++;
@@ -60,5 +80,9 @@ public class Animal {
 
     public String getName() {
         return name;
+    }
+
+    public int getAge() {
+        return age;
     }
 }
