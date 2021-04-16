@@ -4,49 +4,48 @@ public class Animal {
 
     private int maxRunDistance;
     private int maxSwimDistance;
+    private boolean satiety;
     private int age;
 
     private String name;
-
-    public Animal() {
-        this.name = "Неизвестное животное";
-        this.age = -1;
-        this.maxRunDistance = -1;
-        this.maxSwimDistance = -1;
-        count++;
-    }
-
-    public Animal(String name) {
-        this.name = name;
-        this.age = -1;
-        this.maxRunDistance = -1;
-        this.maxSwimDistance = -1;
-        count++;
-    }
-
-    public Animal(String name, int maxRunDistance) {
-        this.name = name;
-        this.age = -1;
-        this.maxRunDistance = maxRunDistance;
-        this.maxSwimDistance = -1;
-        count++;
-    }
-
-    public Animal(String name, int maxRunDistance, int maxSwimDistance) {
-        this.name = name;
-        this.age = -1;
-        this.maxRunDistance = maxRunDistance;
-        this.maxSwimDistance = maxSwimDistance;
-        count++;
-    }
 
     public Animal(String name, int age, int maxRunDistance, int maxSwimDistance) {
         this.name = name;
         this.age = age;
         this.maxRunDistance = maxRunDistance;
         this.maxSwimDistance = maxSwimDistance;
+        satiety = false;
         count++;
     }
+
+    public Animal(String name, int maxRunDistance) {
+        this(name, -1, maxRunDistance, -1);
+    }
+
+    public Animal(int age, String name) {
+        this(name, age, -1, -1);
+    }
+
+    public Animal(String name) {
+        this(name, -1, -1, -1);
+    }
+
+    public Animal() {
+        this("Неизвестное животное", -1, -1, -1);
+    }
+
+
+
+    public Animal(String name, int maxRunDistance, int maxSwimDistance) {
+        this.name = name;
+        this.age = -1;
+        this.maxRunDistance = maxRunDistance;
+        this.maxSwimDistance = maxSwimDistance;
+        satiety = false;
+        count++;
+    }
+
+
 
     public void run(int distance){
         validateDistance(distance);
