@@ -28,11 +28,11 @@ public class Animal {
     /**
      * Кормим всех животных
      */
-    public void eat() {
+    public static void eat() {
         for (Animal animal : animals) {
             if (Plate.plates.size() != 0) {
                 for (Plate plate : Plate.plates) {
-                    if (satiety == false) {
+                    if (animal.satiety == false) {
                         animal.eat(plate);
                     } else {
                         break;
@@ -48,6 +48,9 @@ public class Animal {
         }
     }
 
+    /**
+     * Кормим одно животное
+     */
     public void eat(Plate plate) {
         if (satiety = true) {
 

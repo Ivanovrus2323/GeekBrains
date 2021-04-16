@@ -15,5 +15,4 @@ public class Application {
 
         Plate plate = new Plate(100);
     }
-
 }

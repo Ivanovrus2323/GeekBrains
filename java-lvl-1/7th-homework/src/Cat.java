@@ -22,12 +22,11 @@ public class Cat extends Animal {
     /**
      * Кормим всех котов
      */
-    @Override
-    public void eat() {
+    public static void eat() {
         for (Cat cat : cats) {
             if (Plate.plates.size() != 0) {
                 for (Plate plate : Plate.plates) {
-                    if (satiety == false) {
+                    if (cat.satiety == false) {
                         cat.eat(plate);
                     } else {
                         break;
