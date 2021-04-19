@@ -12,7 +12,7 @@ public class Animal {
 
     public Animal(String name, int appetite) {
         this.name = name;
-        this.appetite = (appetite <= 0) ? 0 : appetite;
+        this.appetite = Math.max(0, appetite);;
         satiety = (appetite <= 0) ? true : false;
         count++;
     }
@@ -26,33 +26,27 @@ public class Animal {
     }
 
     /**
-     * Кормим всех животных
+     * Кормим животное из нескольких мисок
      */
-    public static void eat() {
-        for (Animal animal : animals) {
-            if (Plate.plates.size() != 0) {
-                for (Plate plate : Plate.plates) {
-                    if (animal.satiety == false) {
-                        animal.eat(plate);
-                    } else {
-                        break;
-                    }
+    public void eat(ArrayList<Plate> plates) {
+        if (plates.size() != 0) {
+            for (Plate plate : plates) {
+                if (satiety == false) {
+                    eat(plate);
+                } else {
+                    break;
                 }
-            } else {
-                throw new IllegalArgumentException("Мисок нет");
             }
-        }
-
-        for (Animal animal : animals) {
-            animal.isSatiety();
+        } else {
+            throw new IllegalArgumentException("Мисок нет");
         }
     }
 
     /**
-     * Кормим одно животное
+     * Кормим животное
      */
     public void eat(Plate plate) {
-        if (satiety = true) {
+        if (satiety == true) {
 
             System.out.println(name + " не голоден");
         } else if (plate.getFood() >= appetite && satiety == false) {

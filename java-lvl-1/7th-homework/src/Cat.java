@@ -18,27 +18,4 @@ public class Cat extends Animal {
     public Cat() {
         this("Неизвестный кот", -1);
     }
-
-    /**
-     * Кормим всех котов
-     */
-    public static void eat() {
-        for (Cat cat : cats) {
-            if (Plate.plates.size() != 0) {
-                for (Plate plate : Plate.plates) {
-                    if (cat.satiety == false) {
-                        cat.eat(plate);
-                    } else {
-                        break;
-                    }
-                }
-            } else {
-                throw new IllegalArgumentException("Мисок нет");
-            }
-        }
-
-        for (Cat cat : cats) {
-            cat.isSatiety();
-        }
-    }
 }

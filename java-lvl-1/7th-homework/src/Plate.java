@@ -1,14 +1,9 @@
-import java.util.ArrayList;
-
 public class Plate {
-
-    public static ArrayList<Plate> plates = new ArrayList<Plate> ();
 
     private int food;
 
     public Plate(int food) {
         this.food = food;
-        plates.add(this);
     }
 
     public void info() {

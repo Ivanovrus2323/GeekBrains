@@ -18,27 +18,4 @@ public class Dog extends Animal {
     public Dog() {
         this("Неизвестный пес", -1);
     }
-
-    /**
-     * Кормим всех собак
-     */
-    public static void eat() {
-        for (Dog dog : dogs) {
-            if (Plate.plates.size() != 0) {
-                for (Plate plate : Plate.plates) {
-                    if (dog.satiety == false) {
-                        dog.eat(plate);
-                    } else {
-                        break;
-                    }
-                }
-            } else {
-                throw new IllegalArgumentException("Мисок нет");
-            }
-        }
-
-        for (Dog dog : dogs) {
-            dog.isSatiety();
-        }
-    }
 }
