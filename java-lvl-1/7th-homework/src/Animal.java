@@ -2,8 +2,6 @@ import java.util.ArrayList;
 
 public class Animal {
 
-    public static ArrayList<Animal> animals = new ArrayList<Animal> ();
-
     public static int count = 0;
 
     private String name;
