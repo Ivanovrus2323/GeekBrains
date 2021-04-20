@@ -2,8 +2,6 @@ import java.util.ArrayList;
 
 public class Cat extends Animal {
 
-    public static ArrayList<Cat> cats = new ArrayList<Cat> ();
-
     public static int count = 0;
 
     public Cat(String name, int appetite) {
