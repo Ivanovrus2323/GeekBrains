@@ -14,7 +14,7 @@ public class MainFrame extends JFrame {
         JLabel jLabel = new JLabel("Значение: " + String.valueOf(labelValue));
 
         // Кнопки вычитания
-        JButton jButton1 = new JButton("-1");
+        JButton jButton1 = new JButton("-1"); // -1
         jButton1.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -22,7 +22,7 @@ public class MainFrame extends JFrame {
                 jLabel.setText("Значение: " + String.valueOf(labelValue));
             }
         });
-        JButton jButton2 = new JButton("-5");
+        JButton jButton2 = new JButton("-5"); // -5
         jButton2.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -31,8 +31,8 @@ public class MainFrame extends JFrame {
             }
         });
 
-        // Кнопка сложения
-        JButton jButton3 = new JButton("+1");
+        // Кнопки сложения
+        JButton jButton3 = new JButton("+1"); // +1
         jButton3.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -40,7 +40,7 @@ public class MainFrame extends JFrame {
                 jLabel.setText("Значение: " + String.valueOf(labelValue));
             }
         });
-        JButton jButton4 = new JButton("+5");
+        JButton jButton4 = new JButton("+5"); // +5
         jButton4.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
