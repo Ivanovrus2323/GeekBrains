@@ -1,12 +1,9 @@
 import java.util.ArrayList;
 
 public class Application {
-    /**
-     *
-     * Домашнее задание еще не сделано 
-     *
-     */
+
     public static void main(String[] args) {
+
         ArrayList<Obstacle> obstacles = getObstacles();
         ArrayList<Tracer> tracers = getTracers();
 
@@ -24,10 +21,7 @@ public class Application {
     public static boolean passObstacleCourse(ArrayList<Obstacle> obstacles, Tracer tracer) {
         byte status = 1;
         for (Obstacle obstacle : obstacles) {
-            System.out.println();
-            System.out.println(tracer.jumpRestriction + " " + tracer.runRestriction);
-            System.out.println();
-            if (!Tracer.overcome(obstacle)) {
+            if (!tracer.overcome(obstacle)) {
                 status = 0;
                 break;
             }
