@@ -15,11 +15,8 @@ public class MainFrame extends JFrame {
         setLayout(null);
 
         this.messagesContainer                 = new JPanel();
+        messagesContainer.setLayout(new BoxLayout(messagesContainer, BoxLayout.Y_AXIS));
         JScrollPane jScrollPane                = new JScrollPane(messagesContainer);
-
-        JLabel newMessageJLabel = new JLabel("newMessage");
-        newMessageJLabel.setSize(100, 50);
-        messagesContainer.add(newMessageJLabel);
 
         this.sendContainer                     = new JPanel();
         sendContainer.setLayout(new GridBagLayout());
@@ -28,7 +25,7 @@ public class MainFrame extends JFrame {
         sendMessageLayoutConstraints.fill      = GridBagConstraints.HORIZONTAL;
         sendMessageLayoutConstraints.gridy     = 0;
 
-        // Добавление элементов в панель создания сообщения
+
         this.newMessageField = new JTextField();
         newMessageField.setToolTipText("Введите сообщение");
 
@@ -44,8 +41,7 @@ public class MainFrame extends JFrame {
         sendMessageLayoutConstraints.weightx   = 0.1;
         sendContainer.add(sendButton, sendMessageLayoutConstraints);
 
-
-        // Добавление элементов в главное окно
+        
         setLayout(new GridBagLayout());
 
         GridBagConstraints mainFrameLayoutConstraints = new GridBagConstraints();
@@ -68,9 +64,6 @@ public class MainFrame extends JFrame {
         add(sendContainer, mainFrameLayoutConstraints);
 
 
-        fillMessages();
-
-
         setTitle("Test app");
         setSize(1366, 720);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -78,40 +71,23 @@ public class MainFrame extends JFrame {
         setVisible(true);
     }
 
-    // Добавить новое сообщение
-    private void addMessage(String newMessage) {
-        JLabel newMessageJLabel = new JLabel();
-
-        newMessageJLabel.setText(newMessage);
-        newMessageJLabel.setSize(100, 50);
-        messagesContainer.add(newMessageJLabel);
-    }
-
-    // Метод будет заполнять панель сообщений по данным в бд
-    private void fillMessages() {
-
-        String[] messages = new String[1]; // Будет заменено
-
-        for (String messageText : messages) {
-            JLabel newMessageJLabel = new JLabel(messageText);
-            newMessageJLabel.setSize(100, 50);
-            messagesContainer.add(newMessageJLabel);
-        }
-    }
-
     private class AddMessage implements ActionListener {
-        JPanel messContainer;
-        JTextField messField;
+        JPanel panel;
+        JTextField textField;
 
-        AddMessage (JPanel messContainer, JTextField messField) {
-            this.messContainer = messContainer;
-            this.messField = messField;
+        AddMessage(JPanel panel, JTextField textField) {
+            this.panel = panel;
+            this.textField = textField;
         }
+
         @Override
         public void actionPerformed(ActionEvent e) {
-            this.messContainer.add(new JLabel(newMessageField.getText()));
 
-            this.messField.setText("");
+            JLabel newMessageJLabel = new JLabel(textField.getText());
+
+            panel.add(newMessageJLabel);
+            textField.setText("");
+            panel.validate();
         }
     }
 }
