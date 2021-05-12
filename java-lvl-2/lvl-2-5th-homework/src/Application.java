@@ -25,6 +25,7 @@ public class Application {
 
         System.out.println("Первый метод закончил работу за: " + (System.currentTimeMillis() - startTime)); // 6300 +- 300
     }
+    
     public static void second() {
 
         float[] arr = new float[SIZE];
@@ -32,11 +33,6 @@ public class Application {
 
         float[] a1 = new float[H];
         float[] a2 = new float[H];
-
-        long startTime = System.currentTimeMillis();
-
-        System.arraycopy(arr, 0, a1, 0, H);
-        System.arraycopy(arr, H, a2, 0, H);
 
         Thread thread1 = new Thread(new Runnable() {
             @Override
@@ -55,6 +51,11 @@ public class Application {
                 }
             }
         });
+
+        long startTime = System.currentTimeMillis();
+
+        System.arraycopy(arr, 0, a1, 0, H);
+        System.arraycopy(arr, H, a2, 0, H);
 
         thread1.start();
         thread2.start();
