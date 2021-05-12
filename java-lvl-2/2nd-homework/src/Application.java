@@ -7,9 +7,9 @@ public class Application {
         try {
             amount = getAmount(array);
         } catch (MySizeArrayException exception) {
-            exception.getException();
+            System.err.println(exception.getMessage());
         } catch (MyArrayDataException exception) {
-            exception.getException();
+            System.err.println(exception.getMessage());
         }
 
         System.out.println(amount);
@@ -43,22 +43,14 @@ public class Application {
     }
 
     private static class MySizeArrayException extends Exception {
-        public void getException() {
-            System.err.println("Недопустимый размер массива");
+        MySizeArrayException() {
+            super("Недопустимый размер массива");
         }
     }
 
     private static class MyArrayDataException extends Exception {
-        public int i;
-        public int j;
-
         MyArrayDataException(int i, int j) {
-            this.i = i;
-            this.j = j;
-        }
-
-        public void getException() {
-            System.err.println("Недопустимое значение в ячейке [" + i + "][" + j + "]");
+            super("Недопустимое значение в ячейке [" + i + "][" + j + "]");
         }
     }
 }
