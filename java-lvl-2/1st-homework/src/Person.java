@@ -24,12 +24,4 @@ public class Person implements Tracer {
         }
         return false;
     }
-
-    public double getJumpRestriction() {
-        return jumpRestriction;
-    }
-
-    public int getRunRestriction() {
-        return runRestriction;
-    }
 }

@@ -1,11 +1,12 @@
 import java.util.ArrayList;
+import java.util.List;
 
 public class Application {
 
     public static void main(String[] args) {
 
-        ArrayList<Obstacle> obstacles = getObstacles();
-        ArrayList<Tracer> tracers = getTracers();
+        List<Obstacle> obstacles = getObstacles();
+        List<Tracer> tracers = getTracers();
 
         for (Tracer tracer : tracers) {
             if (passObstacleCourse(obstacles, tracer)) {
@@ -18,18 +19,16 @@ public class Application {
 
     }
 
-    public static boolean passObstacleCourse(ArrayList<Obstacle> obstacles, Tracer tracer) {
-        byte status = 1;
+    public static boolean passObstacleCourse(List<Obstacle> obstacles, Tracer tracer) {
         for (Obstacle obstacle : obstacles) {
             if (!tracer.overcome(obstacle)) {
-                status = 0;
-                break;
+                return false;
             }
         }
-        return status == 1;
+        return true;
     }
 
-    public static ArrayList<Obstacle> getObstacles() {
+    public static List<Obstacle> getObstacles() {
         // Создаем объекты полосы препятствий
         Treadmill treadmill1 = new Treadmill(300);
         Treadmill treadmill2 = new Treadmill(100);
@@ -43,7 +42,7 @@ public class Application {
         Wall wall5 = new Wall(0.4);
 
         // Создаем массив объектов полосы препятствий
-        ArrayList<Obstacle> obstacles = new ArrayList<Obstacle>();
+        List<Obstacle> obstacles = new ArrayList<Obstacle>();
         obstacles.add(wall1);
         obstacles.add(treadmill1);
         obstacles.add(wall2);
@@ -58,7 +57,7 @@ public class Application {
         return obstacles;
     }
 
-    public static ArrayList<Tracer> getTracers() {
+    public static List<Tracer> getTracers() {
         // Создаем трассеров
         Person person1 = new Person(0.7, 1000);
         Person person2 = new Person(0.6, 900);
@@ -73,7 +72,7 @@ public class Application {
         Cat cat3 = new Cat(1.4, 300);
 
         // Создаем массив трассеров
-        ArrayList<Tracer> tracers = new ArrayList<Tracer>();
+        List<Tracer> tracers = new ArrayList<Tracer>();
 
         tracers.add(person1);
         tracers.add(person2);

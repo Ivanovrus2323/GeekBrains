@@ -24,12 +24,4 @@ public class Robot implements Tracer {
         }
         return false;
     }
-
-    public double getJumpRestriction() {
-        return jumpRestriction;
-    }
-
-    public int getRunRestriction() {
-        return runRestriction;
-    }
 }
