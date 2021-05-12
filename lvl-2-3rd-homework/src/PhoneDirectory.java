@@ -1,16 +1,14 @@
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.Map;
+import java.util.*;
 
 public class PhoneDirectory {
-    private Map<String, ArrayList<String>> map = new LinkedHashMap();
+    private Map<String, List<String>> map = new HashMap<>();
 
-    public ArrayList<String> get(String secondName) {
+    public List<String> get(String secondName) {
         return map.get(secondName);
     }
 
     public void add(String secondName, String phoneNumber) {
-        ArrayList<String> phoneNumbersList;
+        List<String> phoneNumbersList;
 
         phoneNumbersList = (map.containsKey(secondName)) ? map.get(secondName) : new ArrayList<>();
         phoneNumbersList.add(phoneNumber);
