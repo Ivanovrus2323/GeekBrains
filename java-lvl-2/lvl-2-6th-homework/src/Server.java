@@ -14,8 +14,6 @@ public class Server {
     private DataOutputStream outputStream;
     private Thread thread;
 
-    private boolean isRunning = true;
-
     private void openConnection(ServerSocket serverSocket) throws IOException {
         System.out.println("Wait for connection...");
 
@@ -30,17 +28,12 @@ public class Server {
                 while (true) {
                     String clientMessage = inputStream.readUTF();
                     if (clientMessage.equals(EchoConstants.STOP_WORD)) {
-                        openConnection(serverSocket);
                         break;
                     }
                     System.out.println("Client message: " + clientMessage);
                 }
             } catch (SocketException ex) {
-                try {
-                    if (isRunning) openConnection(serverSocket);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+                ex.printStackTrace();
             } catch (IOException ex) {
                 ex.printStackTrace();
             }
@@ -89,7 +82,6 @@ public class Server {
                 sendMessage(message);
 
                 if (message.equals(EchoConstants.STOP_WORD)) {
-                    isRunning = false;
                     closeConnection();
                     break;
                 }
