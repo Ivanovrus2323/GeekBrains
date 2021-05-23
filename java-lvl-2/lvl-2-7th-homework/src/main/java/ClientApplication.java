@@ -1,3 +1,7 @@
+package main.java;
+
+import main.java.client.Client;
+
 import java.io.IOException;
 
 public class ClientApplication {
