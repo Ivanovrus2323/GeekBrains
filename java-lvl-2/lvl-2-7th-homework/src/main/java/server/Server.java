@@ -59,7 +59,7 @@ public class Server {
 
     public synchronized void broadcastMsg(String msg, String nick, String nick2) {
         for (ClientHandler o : clients) {
-            if (o.getName() != nick && o.getName() == nick2) o.sendMsg(msg);
+            if (o.getName() != nick && o.getName().equals(nick2)) o.sendMsg(msg);
         }
     }
 

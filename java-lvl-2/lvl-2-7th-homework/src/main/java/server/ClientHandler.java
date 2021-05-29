@@ -71,7 +71,13 @@ public class ClientHandler {
             if (strFromClient.equals("/end")) {
                 return;
             }
-            server.broadcastMsg(name + ": " + strFromClient, name);
+            if (strFromClient.startsWith("/w ")) {
+                strFromClient = strFromClient.replace("/w ", "");
+                String nameTo = strFromClient.split(" ")[0];
+                server.broadcastMsg(name + ": " + strFromClient, name, nameTo);
+            } else {
+                server.broadcastMsg(name + ": " + strFromClient, name);
+            }
         }
     }
 
