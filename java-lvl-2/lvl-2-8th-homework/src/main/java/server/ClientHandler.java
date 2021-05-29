@@ -1,5 +1,7 @@
 package main.java.server;
 
+import main.java.EchoConstants;
+
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -13,6 +15,7 @@ public class ClientHandler {
     private DataOutputStream out;
 
     private String name;
+    private boolean authorized = false;
 
     public String getName() {
         return name;
@@ -25,6 +28,20 @@ public class ClientHandler {
             this.in = new DataInputStream(socket.getInputStream());
             this.out = new DataOutputStream(socket.getOutputStream());
             this.name = "";
+
+            new Thread(() -> {
+                try {
+                    Thread.sleep(5000);
+                    if (authorized == false) {
+                        sendMsg("Время ожидания вышло, соединение будет разорвано");
+                        sendMsg(EchoConstants.STOP_WORD);
+                        closeConnection();
+                    }
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }).start();
+
             new Thread(() -> {
                 try {
                     authentication();
@@ -49,6 +66,7 @@ public class ClientHandler {
                 if (nick != null) {
                     if (!server.isNickBusy(nick)) {
                         sendMsg("/authok " + nick);
+                        authorized = true;
                         name = nick;
                         System.out.println(name + " зашел в чат");
                         server.broadcastMsg(name + " зашел в чат");

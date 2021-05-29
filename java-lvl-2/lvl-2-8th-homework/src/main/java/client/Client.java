@@ -35,6 +35,10 @@ public class Client extends JFrame {
                             auth = true;
                             System.out.println("Вы успешно вошли в чат");
                             break;
+                        } else if (strFromServer.equalsIgnoreCase("/end")) {
+                            closeConnection();
+                            System.out.println("Соединение разорвано");
+                            System.exit(0);
                         }
                         System.out.println(strFromServer);
                     }
