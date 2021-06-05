@@ -4,6 +4,7 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
+import java.sql.SQLException;
 
 public class ClientHandler {
     private Server server;
@@ -12,6 +13,7 @@ public class ClientHandler {
     private DataOutputStream out;
 
     private String name;
+    private String login;
 
     public String getName() {
         return name;
@@ -28,7 +30,7 @@ public class ClientHandler {
                 try {
                     authentication();
                     readMessages();
-                } catch (IOException e) {
+                } catch (IOException | SQLException e) {
                     e.printStackTrace();
                 } finally {
                     closeConnection();
@@ -39,7 +41,7 @@ public class ClientHandler {
         }
     }
 
-    public void authentication() throws IOException {
+    public void authentication() throws IOException, SQLException {
         while (true) {
             String str = in.readUTF();
             if (str.startsWith("/auth")) {
@@ -48,6 +50,7 @@ public class ClientHandler {
                 if (nick != null) {
                     if (!server.isNickBusy(nick)) {
                         sendMsg("/authok " + nick);
+                        login = parts[1];
                         name = nick;
                         System.out.println(name + " зашел в чат");
                         server.broadcastMsg(name + " зашел в чат");
@@ -63,7 +66,7 @@ public class ClientHandler {
         }
     }
 
-    public void readMessages() throws IOException {
+    public void readMessages() throws IOException, SQLException {
         while (true) {
             String strFromClient = in.readUTF();
             System.out.println("от " + name + ": " + strFromClient);
@@ -74,6 +77,10 @@ public class ClientHandler {
                 strFromClient = strFromClient.replace("/w ", "");
                 String nameTo = strFromClient.split(" ")[0];
                 server.broadcastMsg(name + ": " + strFromClient, name, nameTo);
+            } else if (strFromClient.startsWith("/changeNick ")) {
+                String newNick = strFromClient.replace("/changeNick ", "");
+                server.changeNick(name, newNick, login);
+                name = newNick;
             } else {
                 server.broadcastMsg(name + ": " + strFromClient, name);
             }

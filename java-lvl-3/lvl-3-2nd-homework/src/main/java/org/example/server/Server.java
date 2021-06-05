@@ -3,6 +3,7 @@ package org.example.server;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,16 +11,16 @@ public class Server {
     private final int PORT = 8189;
 
     private List<ClientHandler> clients;
-    private AuthService authService;
+    private DbService dbService;
 
-    public AuthService getAuthService() {
-        return authService;
+    public DbService getAuthService() {
+        return dbService;
     }
 
     public Server() {
         try (ServerSocket server = new ServerSocket(PORT)) {
-            authService = new BaseAuthService();
-            authService.start();
+            dbService = new BaseDatabaseService();
+            dbService.start();
             clients = new ArrayList<>();
             while (true) {
                 System.out.println("Сервер ожидает подключения");
@@ -27,11 +28,12 @@ public class Server {
                 System.out.println("Клиент подключился");
                 new ClientHandler(this, socket);
             }
-        } catch (IOException e) {
+        } catch (IOException | SQLException e) {
             System.out.println("Ошибка в работе сервера");
+            System.out.println(e.getMessage());
         } finally {
-            if (authService != null) {
-                authService.stop();
+            if (dbService != null) {
+                dbService.stop();
             }
         }
     }
@@ -61,6 +63,11 @@ public class Server {
         for (ClientHandler o : clients) {
             if (o.getName() != nick && o.getName().equals(nick2)) o.sendMsg(msg);
         }
+    }
+
+    public synchronized void changeNick(String oldNick, String newNick, String login) throws SQLException {
+        dbService.changeNick(newNick, login);
+        broadcastMsg(oldNick + " сменил ник на " + newNick);
     }
 
     public synchronized void unsubscribe(ClientHandler o) {
