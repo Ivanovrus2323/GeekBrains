@@ -13,6 +13,7 @@ public class ClientHandler {
     private Socket socket;
     private DataInputStream in;
     private DataOutputStream out;
+    private long stopTime;
 
     private String name;
     private boolean authorized = false;
@@ -30,12 +31,15 @@ public class ClientHandler {
             this.name = "";
 
             new Thread(() -> {
+                stopTime = System.currentTimeMillis() / 1000 + 120;
                 try {
-                    Thread.sleep(5000);
-                    if (authorized == false) {
-                        sendMsg("Время ожидания вышло, соединение будет разорвано");
-                        sendMsg(EchoConstants.STOP_WORD);
-                        closeConnection();
+                    while (true) {
+                        Thread.sleep(5000);
+                        if (authorized == false && System.currentTimeMillis() / 1000 >= stopTime) {
+                            sendMsg("Время ожидания вышло, соединение будет разорвано");
+                            sendMsg(EchoConstants.STOP_WORD);
+                            closeConnection();
+                        } else if (authorized == true) break;
                     }
                 } catch (InterruptedException e) {
                     e.printStackTrace();
