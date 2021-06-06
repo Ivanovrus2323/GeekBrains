@@ -3,13 +3,15 @@ package org.example.client;
 import org.example.EchoConstants;
 
 import javax.swing.*;
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.IOException;
+import java.io.*;
 import java.net.Socket;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
 import java.util.Scanner;
 
 public class Client extends JFrame {
+    private static final String HISTORY_PATH = "chat_history.txt";
     private Scanner scanner = new Scanner(System.in);
     private Socket socket;
     private DataInputStream in;
@@ -17,7 +19,7 @@ public class Client extends JFrame {
 
     private boolean auth = false;
 
-    private void openConnection() throws IOException {
+    private void openConnection() {
         try {
             socket = new Socket("localhost", 8189);
             in = new DataInputStream(socket.getInputStream());
@@ -38,11 +40,14 @@ public class Client extends JFrame {
                         }
                         System.out.println(strFromServer);
                     }
+
+                    showMessages();
+
                     while (true) {
                         String strFromServer = in.readUTF();
-                        if (strFromServer.equalsIgnoreCase("/end")) {
-                            break;
-                        }
+                        if (strFromServer.equalsIgnoreCase("/end")) break;
+
+                        saveMessage(strFromServer);
                         System.out.println(strFromServer);
                     }
                 } catch (Exception e) {
@@ -77,6 +82,7 @@ public class Client extends JFrame {
     private void sendMessage(String message) {
         if (!message.trim().isEmpty()) {
             try {
+                if (auth == true) saveMessage("Вы: " + message);
                 out.writeUTF(message);
             } catch (IOException e) {
                 e.printStackTrace();
@@ -85,7 +91,7 @@ public class Client extends JFrame {
         }
     }
 
-    public static void start() throws IOException {
+    public static void start() {
         Client client = new Client();
         client.openConnection();
 
@@ -109,5 +115,24 @@ public class Client extends JFrame {
         }
 
         System.out.println("Client shutting down");
+    }
+
+    public static void saveMessage(String message) {
+        try {
+            Files.write(Paths.get(HISTORY_PATH), (message + "\n").getBytes(), StandardOpenOption.APPEND);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void showMessages() {
+        try (BufferedReader reader = new BufferedReader(new FileReader(HISTORY_PATH))) {
+            String str;
+            for (int i = 0; i<=100 && (str = reader.readLine()) != null; i++) {
+                System.out.println(str);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
