@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 
 public class Box<T extends Fruit> {
-    private ArrayList<T> box;
+    private List<T> box;
     public String type;
 
     public Box() {
@@ -12,7 +12,7 @@ public class Box<T extends Fruit> {
         box.add(fruit);
     }
 
-    public void addAll(ArrayList<T> arrayList){
+    public void addAll(List<T> arrayList){
         box.addAll(arrayList);
     }
 
