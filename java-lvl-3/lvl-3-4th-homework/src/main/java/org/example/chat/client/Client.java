@@ -1,6 +1,6 @@
 package org.example.chat.client;
 
-import org.example.EchoConstants;
+import org.example.chat.EchoConstants;
 
 import javax.swing.*;
 import java.io.*;

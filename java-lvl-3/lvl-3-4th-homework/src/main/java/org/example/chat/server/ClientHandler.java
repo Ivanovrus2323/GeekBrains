@@ -5,8 +5,13 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
 import java.sql.SQLException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class ClientHandler {
+
+    public static ExecutorService executorService = Executors.newFixedThreadPool(100);
+
     private Server server;
     private Socket socket;
     private DataInputStream in;
@@ -26,7 +31,7 @@ public class ClientHandler {
             this.in = new DataInputStream(socket.getInputStream());
             this.out = new DataOutputStream(socket.getOutputStream());
             this.name = "";
-            new Thread(() -> {
+            executorService.execute(() -> {
                 try {
                     authentication();
                     readMessages();
@@ -35,7 +40,7 @@ public class ClientHandler {
                 } finally {
                     closeConnection();
                 }
-            }).start();
+            });
         } catch (IOException e) {
             throw new RuntimeException("Проблемы при создании обработчика клиента");
         }
