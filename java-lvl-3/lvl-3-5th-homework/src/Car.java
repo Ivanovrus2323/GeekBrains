@@ -38,11 +38,13 @@ public class Car implements Runnable {
         }
         try {
             MainClass.cyclicBarrier.await();
+            MainClass.countDownLatch.countDown();
         } catch (InterruptedException | BrokenBarrierException e) {
             e.printStackTrace();
         }
         for (int i = 0; i < race.getStages().size(); i++) {
             race.getStages().get(i).go(this);
         }
+        MainClass.countDownLatch2.countDown();
     }
 }
