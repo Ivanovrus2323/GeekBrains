@@ -130,8 +130,12 @@ public class Client extends JFrame {
 
     public static void showMessages() {
         try (BufferedReader reader = new BufferedReader(new FileReader(HISTORY_PATH))) {
-            List<String> list = reader.lines().collect(Collectors.toList());
-            while (list.size() > 100) list.remove(1);
+            LinkedList<String> list = new LinkedList();
+
+            while (reader.readLine() != null) {
+                list.add(reader.readLine());
+                if (list.size() > 100) list.remove(1);
+            }
 
             for (String str : list) System.out.println(str);
 
