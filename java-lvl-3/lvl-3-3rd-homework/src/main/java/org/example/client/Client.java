@@ -8,7 +8,10 @@ import java.net.Socket;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Scanner;
+import java.util.stream.Collectors;
 
 public class Client extends JFrame {
     private static final String HISTORY_PATH = "chat_history.txt";
@@ -127,10 +130,11 @@ public class Client extends JFrame {
 
     public static void showMessages() {
         try (BufferedReader reader = new BufferedReader(new FileReader(HISTORY_PATH))) {
-            String str;
-            for (int i = 0; i<=100 && (str = reader.readLine()) != null; i++) {
-                System.out.println(str);
-            }
+            List<String> list = reader.lines().collect(Collectors.toList());
+            while (list.size() > 100) list.remove(1);
+
+            for (String str : list) System.out.println(str);
+
         } catch (IOException e) {
             e.printStackTrace();
         }
