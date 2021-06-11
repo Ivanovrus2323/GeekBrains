@@ -6,15 +6,15 @@ import javax.swing.*;
 import java.io.*;
 import java.net.Socket;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 import java.util.LinkedList;
-import java.util.List;
 import java.util.Scanner;
-import java.util.stream.Collectors;
 
 public class Client extends JFrame {
     private static final String HISTORY_PATH = "chat_history.txt";
+    private static final Path path = Paths.get(HISTORY_PATH);
     private Scanner scanner = new Scanner(System.in);
     private Socket socket;
     private DataInputStream in;
@@ -122,7 +122,7 @@ public class Client extends JFrame {
 
     public static void saveMessage(String message) {
         try {
-            Files.write(Paths.get(HISTORY_PATH), (message + "\n").getBytes(), StandardOpenOption.APPEND);
+            Files.write(path, (message + "\n").getBytes(), StandardOpenOption.APPEND);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -134,7 +134,7 @@ public class Client extends JFrame {
 
             while (reader.readLine() != null) {
                 list.add(reader.readLine());
-                if (list.size() > 100) list.remove(1);
+                if (list.size() > 100) list.remove(0);
             }
 
             for (String str : list) System.out.println(str);
