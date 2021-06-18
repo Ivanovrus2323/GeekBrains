@@ -46,5 +46,6 @@ public class Car implements Runnable {
             race.getStages().get(i).go(this);
         }
         MainClass.countDownLatch2.countDown();
+        System.out.println(name + " прошел все участки");
     }
 }

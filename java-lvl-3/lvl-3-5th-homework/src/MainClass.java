@@ -24,18 +24,15 @@ public class MainClass {
             threads[i].start();
         }
 
-        new Thread(() -> {
-            try {
-                countDownLatch.await();
-            } catch (InterruptedException e) {e.printStackTrace();}
-            System.out.println("\nВАЖНОЕ ОБЪЯВЛЕНИЕ >>> Гонка началась!!!\n");
-        }).start();
 
-        new Thread(() -> {
-            try {
-                countDownLatch2.await();
-            } catch (InterruptedException e) {e.printStackTrace();}
-            System.out.println("\nВАЖНОЕ ОБЪЯВЛЕНИЕ >>> Гонка закончилась!!!");
-        }).start();
+        try {
+            countDownLatch.await();
+        } catch (InterruptedException e) {e.printStackTrace();}
+        System.out.println("\nВАЖНОЕ ОБЪЯВЛЕНИЕ >>> Гонка началась!!!\n");
+
+        try {
+            countDownLatch2.await();
+        } catch (InterruptedException e) {e.printStackTrace();}
+        System.out.println("\nВАЖНОЕ ОБЪЯВЛЕНИЕ >>> Гонка закончилась!!!");
     }
 }
